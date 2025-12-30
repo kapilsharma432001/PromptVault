@@ -1,6 +1,6 @@
 "use client"; // This runs in the browser and not on the server
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Prompt, Category } from "@/types";
 import { PromptCard } from "./PromptCard";
 import { PromptForm } from "./PromptForm";
@@ -30,6 +30,26 @@ export function PromptDashboard() {
     // THE STATE (The "In-Memory DB")
     // [variable, functionToUpdateVariable] = useState(initialValue)
     const [prompts, setPrompts] = useState<Prompt[]>(INITIAL_DATA);
+    const [isLoaded, setIsLoaded] = useState(false); // Fix for Hydration Mismatch
+
+    // EFFECT: LOAD ON STARTUP (The "SELECT *")
+    useEffect(() => {
+    // Check if we have data in the browser's storage
+    const saved = localStorage.getItem("prompt-vault-data");
+    if (saved) {
+      // If yes, parse JSON and set it to state
+      setPrompts(JSON.parse(saved));
+    }
+    setIsLoaded(true); // UI is now ready to show
+    }, []); // Empty dependency array [] = "Run once on mount"
+
+    // EFFECT: SAVE ON CHANGE (The "UPDATE Trigger")
+    useEffect(() => {
+        // Whenever 'prompts' changes, save the new list to storage
+        if (isLoaded) { // Only save if we have finished loading initially
+        localStorage.setItem("prompt-vault-data", JSON.stringify(prompts));
+        }
+    }, [prompts, isLoaded]); // Run this every time 'prompts' changes
 
     // Business logic to delete
     // Delete from prompts where id = ?

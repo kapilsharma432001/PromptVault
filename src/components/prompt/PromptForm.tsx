@@ -13,7 +13,9 @@ import {
     DialogTitle,
     DialogTrigger,
   } from "@/components/ui/dialog";
-  import { Plus } from "lucide-react";
+import { Plus } from "lucide-react";
+import { Wand2, Loader2 } from "lucide-react"; // Icons for magic and loading
+
 
 // PROPS: What does this form need from the parent?
 // It needs a function to call when a user clicks on save
@@ -29,6 +31,7 @@ export function PromptForm({onAddPrompt}: PromptFormProps) {
   const [content, setContent] = useState("");
   const [category, setCategory] = useState<Category>("Code");
   const [tagInput, setTagInput] = useState("");
+  const [isPolishing, setIsPolishing] = useState(false); // Loading state for AI polishing
 
   // Form submission logic
   const handleSubmit = (e: React.FormEvent) => {
@@ -46,6 +49,32 @@ export function PromptForm({onAddPrompt}: PromptFormProps) {
     setTagInput("");
     setOpen(false);
   };
+
+  const handlePolish = async () => {
+
+    if (!content) return;
+    
+    setIsPolishing(true);
+    try {
+        const response = await fetch('/api/polish', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ text: content }),
+        });
+        const data = await response.json();
+
+        if (data.polishedText) {
+            setContent(data.polishedText); // update the text biox with AI result
+        }
+    } catch (error) {
+        console.error("Error polishing prompt:", error);
+        alert("Something went wrong with the AI.");
+    }finally {
+        setIsPolishing(false); // stop loading spinner
+    }
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -97,6 +126,23 @@ export function PromptForm({onAddPrompt}: PromptFormProps) {
 
           {/* CONTENT TEXTAREA */}
           <div className="grid gap-2">
+            <div className="flex items-center justify-between">
+                    <Button 
+                        type="button" // Important: preventing it from submitting the form
+                        variant="outline" 
+                        size="sm"
+                        onClick={handlePolish}
+                        disabled={isPolishing || !content}
+                        className="text-violet-600 hover:text-violet-700 hover:bg-violet-50"
+                    >
+                        {isPolishing ? (
+                            <Loader2 className="w-3 h-3 mr-2 animate-spin" />
+                        ) : (
+                            <Wand2 className="w-3 h-3 mr-2" />
+                        )}
+                        {isPolishing ? "Polishing..." : "AI Polish"}
+                    </Button>
+                </div>
             <Label htmlFor="content">Prompt Content</Label>
             <Textarea 
               id="content" 

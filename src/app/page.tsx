@@ -1,7 +1,9 @@
-import Image from "next/image";
+import { PromptDashboard } from "@/components/prompt/PromptDashboard";
 
 export default function Home() {
   return (
-    <div>PromptVault</div>
+    <main className="min-h-screen bg-gray-50">
+      <PromptDashboard />
+    </main>
   );
 }

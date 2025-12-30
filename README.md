@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PromptVault 🧠
 
-## Getting Started
+PromptVault is a personal library for managing, categorizing, and refining AI prompts. It features a modern, responsive UI and integrates with OpenAI to automatically "polish" raw prompts into professional requests. Created this project to learn front-end engineering (because I am more of a backend developer).
 
-First, run the development server:
+**Live Demo:** [Insert your Vercel URL here]
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This project uses a modern "AI Engineer" stack focused on speed and type safety:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+* **Framework:** [Next.js 14](https://nextjs.org/) (App Router) - Handles both Frontend and Backend API.
+* **Language:** [TypeScript](https://www.typescriptlang.org/) - Ensures strict typing for data models.
+* **Styling:** [Tailwind CSS](https://tailwindcss.com/) - Utility-first styling.
+* **UI Components:** [shadcn/ui](https://ui.shadcn.com/) - Accessible, pre-built components (Radix UI + Tailwind).
+* **AI Integration:** [Vercel AI SDK](https://sdk.vercel.ai/) - Standard library for AI/LLM text generation.
+* **Icons:** [Lucide React](https://lucide.dev/)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ✨ Features
 
-## Learn More
+1.  **CRUD Operations:** Create, Read, and Delete prompts.
+2.  **Local Persistence:** Data is saved to the browser's `localStorage`, persisting across page reloads.
+3.  **AI Polish:** A "Magic Wand" feature that sends raw text to an internal API (`/api/polish`), utilizing OpenAI (or a mock provider) to rewrite and improve the prompt.
+4.  **Responsive Grid:** Built with CSS Grid to work on mobile and desktop.
+5.  **Copy to Clipboard:** One-click copying for quick usage.
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Getting Started
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Prerequisites
+- Node.js 18+ installed.
+- (Optional) An OpenAI API Key for the "Polish" feature.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Installation
 
-## Deploy on Vercel
+1.  **Clone the repo:**
+    ```bash
+    git clone [https://github.com/kapilsharma432001/PromptVault.git](https://github.com/kapilsharma432001/PromptVault.git)
+    cd prompt-vault
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3.  **Setup Environment Variables:**
+    Create a `.env.local` file in the root directory:
+    ```bash
+    OPENAI_API_KEY=sk-your-openai-key-here
+    ```
+
+4.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
+
+5.  Open [http://localhost:3000](http://localhost:3000) with your browser.

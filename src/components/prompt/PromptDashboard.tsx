@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Prompt, Category } from "@/types";
 import { PromptCard } from "./PromptCard";
+import { PromptForm } from "./PromptForm";
 
 // MOCK DATA - In a real app, this would come from a backend or database
 
@@ -45,13 +46,35 @@ export function PromptDashboard() {
         alert("Copied to clipboard!"); // Simple feedback
     };
 
+    // Business logic to create prompt
+    const handleAddPrompt = (title: string, content: string, category: Category, tags: string[]) => {
+        const newPrompt: Prompt = {
+            id: Date.now().toString(), // Simple unique ID
+            title,
+            content,
+            category,
+            tags,
+            createdAt: new Date(),
+        };
+
+        // IMMUTABILITY: Create a new array with the new prompt added
+        setPrompts([newPrompt, ...prompts]); // New array with newPrompt at the start
+    };
+
+
     // The view
     return (
         <div className="max-w-4xl mx-auto p-6">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">PromptVault</h1>
-        <p className="text-gray-500">Manage and store your best AI commands.</p>
-      </div>
+      
+    <div className="mb-8 flex items-center justify-between">
+    <div>
+      <h1 className="text-3xl font-bold tracking-tight">PromptVault</h1>
+      <p className="text-gray-500">Manage and store your best AI commands.</p>
+    </div>
+
+    {/* Pass the function DOWN to the form */}
+    <PromptForm onAddPrompt={handleAddPrompt} />
+</div>
 
         {/* THE GRID */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
